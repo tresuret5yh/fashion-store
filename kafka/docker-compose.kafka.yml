@@ -1,0 +1,121 @@
+services:
+  # Apache Zookeeper (требуется для Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+      - "2181:2181"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo 'ruok' | nc localhost 2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - kafka-network
+
+  # Apache Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "9094:9094"  # Для внешних подключений
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      
+      # Настройки слушателей
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9094
+      
+      # Настройки для разработки
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      
+      # Настройки логов
+      KAFKA_LOG_RETENTION_HOURS: 168  # 7 дней
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824  # 1GB
+      
+      # Настройки производительности для разработки
+      KAFKA_HEAP_OPTS: "-Xmx512M -Xms256M"
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - kafka-network
+
+  # Kafka UI - веб-интерфейс для управления Kafka
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      KAFKA_CLUSTERS_0_JMXPORT: 9997
+    networks:
+      - kafka-network
+
+  # Экспортер метрик Kafka для Prometheus
+  kafka-exporter:
+    image: danielqsj/kafka-exporter:latest
+    container_name: kafka-exporter
+    depends_on:
+      - kafka
+    ports:
+      - "9308:9308"
+    command:
+      - "--kafka.server=kafka:9092"
+      - "--web.listen-address=:9308"
+      - "--log.level=info"
+      - "--sasl.enabled=false"
+    networks:
+      - kafka-network
+
+  # Создание топиков при запуске
+  kafka-init:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka-init
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: >
+      bash -c "
+        echo 'Ожидание запуска Kafka...' &&
+        sleep 30 &&
+        echo 'Создание топиков...' &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic inventory-check --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic inventory-compensate --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic payment-process --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic payment-compensate --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic notifications --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic saga-responses --partitions 3 --replication-factor 1 &&
+        echo 'Топики созданы успешно' &&
+        echo 'Список топиков:' &&
+        kafka-topics --bootstrap-server kafka:9092 --list
+      "
+    networks:
+      - kafka-network
+
+# Сеть для изоляции сервисов Kafka
+networks:
+  kafka-network:
+    driver: bridge
+    name: kafka-network

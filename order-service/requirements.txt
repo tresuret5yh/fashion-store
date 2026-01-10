@@ -1,0 +1,5 @@
+Flask==2.3.3
+kafka-python==2.0.2      # Для работы с Kafka
+python-dotenv==1.0.0
+prometheus-client==0.17.1
+uuid==1.30               # Для генерации ID

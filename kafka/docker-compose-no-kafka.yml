@@ -1,0 +1,59 @@
+
+services:
+  # База данных
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fashion_store
+    ports:
+      - "5432:5432"
+
+  # Микросервисы (без Kafka зависимостей)
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:5000
+      - CATALOG_SERVICE_URL=http://catalog-service:5001
+      - ORDER_SERVICE_URL=http://order-service:5002
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "5000:5000"
+
+  catalog-service:
+    build: ./catalog-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://admin:password@postgres:5432/fashion_store
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "5002:5002"
+    # Без Kafka для тестирования
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "5003:5003"
+    # Без Kafka для тестирования
+
+  inventory-service:
+    build: ./inventory-service
+    ports:
+      - "5004:5004"
+    # Без Kafka для тестирования
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "5005:5005"
+    # Без Kafka для тестирования

@@ -1,0 +1,93 @@
+global:
+  scrape_interval: 15s  # Интервал сбора метрик
+  evaluation_interval: 15s  # Интервал оценки правил
+
+# Настройки правил алертинга (опционально)
+rule_files:
+  # - "alert_rules.yml"
+
+# Конфигурация сбора метрик
+scrape_configs:
+  # Prometheus сам собирает метрики о себе
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+
+  # API Gateway
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:8000']
+        labels:
+          service: 'api-gateway'
+          environment: 'development'
+
+  # Auth Service
+  - job_name: 'auth-service'
+    static_configs:
+      - targets: ['auth-service:5000']
+        labels:
+          service: 'auth-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Catalog Service
+  - job_name: 'catalog-service'
+    static_configs:
+      - targets: ['catalog-service:5001']
+        labels:
+          service: 'catalog-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Order Service
+  - job_name: 'order-service'
+    static_configs:
+      - targets: ['order-service:5002']
+        labels:
+          service: 'order-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Payment Service
+  - job_name: 'payment-service'
+    static_configs:
+      - targets: ['payment-service:5003']
+        labels:
+          service: 'payment-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Inventory Service
+  - job_name: 'inventory-service'
+    static_configs:
+      - targets: ['inventory-service:5004']
+        labels:
+          service: 'inventory-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Notification Service
+  - job_name: 'notification-service'
+    static_configs:
+      - targets: ['notification-service:5005']
+        labels:
+          service: 'notification-service'
+          environment: 'development'
+    metrics_path: '/metrics'
+
+  # Kafka (если есть экспортер метрик)
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka-exporter:9308']
+        labels:
+          service: 'kafka'
+          environment: 'development'
+
+# Дополнительные настройки
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+          # - alertmanager:9093  # Раскомментировать при наличии Alertmanager

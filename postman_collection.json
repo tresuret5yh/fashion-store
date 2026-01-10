@@ -1,0 +1,901 @@
+{
+  "info": {
+    "_postman_id": "fashion-store-microservices",
+    "name": "Fashion Store Microservices",
+    "description": "Коллекция для тестирования курсовой работы по микросервисной архитектуре магазина одежды",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Checks",
+      "description": "Проверка здоровья всех микросервисов",
+      "item": [
+        {
+          "name": "GET API Gateway Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья API Gateway"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Auth Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья сервиса аутентификации"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Catalog Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5001/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья сервиса каталога (CQRS)"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Order Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5002/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья сервиса заказов (Saga)"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Payment Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5003/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5003",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья платежного сервиса"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Inventory Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5004/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5004",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья сервиса инвентаря"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Notification Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5005/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5005",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья сервиса уведомлений"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Authentication",
+      "description": "Тестирование аутентификации и авторизации",
+      "item": [
+        {
+          "name": "POST Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"test_user_{{timestamp}}\",\n    \"password\": \"TestPassword123\",\n    \"email\": \"test_{{timestamp}}@example.com\",\n    \"full_name\": \"Тестовый Пользователь\",\n    \"role\": \"customer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "register"]
+            },
+            "description": "Регистрация нового пользователя"
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"customer1\",\n    \"password\": \"customer123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "Аутентификация пользователя и получение JWT токена"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Verify Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/verify",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "verify"]
+            },
+            "description": "Проверка валидности JWT токена"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Circuit Breaker Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/circuit-breaker",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "circuit-breaker"]
+            },
+            "description": "Тестирование Circuit Breaker паттерна (имитация сбоев)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Catalog Service (CQRS)",
+      "description": "Демонстрация CQRS паттерна: разделение операций чтения и записи",
+      "item": [
+        {
+          "name": "POST Create Product (Command)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Новые кроссовки Adidas\",\n    \"description\": \"Современные кроссовки для бега и повседневной носки\",\n    \"price\": 8999.99,\n    \"category\": \"обувь\",\n    \"size\": \"42\",\n    \"color\": \"черный\",\n    \"stock_quantity\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products"]
+            },
+            "description": "Создание нового товара (CQRS - Command операция)"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Get All Products (Query)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products"]
+            },
+            "description": "Получение списка всех товаров (CQRS - Query операция)"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Get Product by ID (Query)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products", "1"]
+            },
+            "description": "Получение информации о конкретном товаре (CQRS - Query операция)"
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update Product Stock (Command)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quantity\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products/1/stock",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products", "1", "stock"]
+            },
+            "description": "Обновление количества товара на складе (CQRS - Command операция)"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Get Products with Filters (Query)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products?category=обувь&size=42",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "обувь"
+                },
+                {
+                  "key": "size",
+                  "value": "42"
+                }
+              ]
+            },
+            "description": "Получение товаров с фильтрацией (CQRS - Query операция)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Order Service (Saga)",
+      "description": "Демонстрация Saga паттерна для распределенных транзакций",
+      "item": [
+        {
+          "name": "POST Create Order (Start Saga)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": \"customer1\",\n    \"items\": [\n        {\n            \"product_id\": 1,\n            \"name\": \"Джинсы Levi's\",\n            \"quantity\": 2,\n            \"price\": 5000.0\n        },\n        {\n            \"product_id\": 2,\n            \"name\": \"Футболка Nike\",\n            \"quantity\": 1,\n            \"price\": 2500.0\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders"]
+            },
+            "description": "Создание заказа с использованием Saga паттерна\n\nSaga шаги:\n1. Проверка наличия товара (inventory-service)\n2. Обработка платежа (payment-service)\n3. Отправка уведомления (notification-service)\n\nПри ошибке - компенсирующие транзакции"
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create Order with Error (Saga Compensation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": \"customer1\",\n    \"items\": [\n        {\n            \"product_id\": 999,\n            \"name\": \"Несуществующий товар\",\n            \"quantity\": 100,\n            \"price\": 100000.0\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders"]
+            },
+            "description": "Создание заказа, который вызовет ошибку и демонстрацию компенсирующих транзакций Saga"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Get Order Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders/{{order_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders", "{{order_id}}"]
+            },
+            "description": "Получение текущего статуса заказа Saga"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders"]
+            },
+            "description": "Получение списка всех заказов"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. API Gateway Demo",
+      "description": "Демонстрация работы API Gateway паттерна",
+      "item": [
+        {
+          "name": "GET Auth через Gateway",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/auth/verify",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "auth", "verify"]
+            },
+            "description": "Доступ к Auth Service через API Gateway"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Catalog через Gateway",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/catalog/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "catalog", "products"]
+            },
+            "description": "Доступ к Catalog Service через API Gateway"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Orders через Gateway",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "orders"]
+            },
+            "description": "Доступ к Order Service через API Gateway"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Monitoring",
+      "description": "Демонстрация мониторинга и метрик",
+      "item": [
+        {
+          "name": "GET Prometheus Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/metrics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["metrics"]
+            },
+            "description": "Получение метрик Prometheus из сервиса аутентификации"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Order Service Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5002/metrics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["metrics"]
+            },
+            "description": "Получение метрик Prometheus из сервиса заказов"
+          },
+          "response": []
+        },
+        {
+          "name": "GET Grafana Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "health"]
+            },
+            "description": "Проверка здоровья Grafana"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7. Complete Flow (Сквозной тест)",
+      "description": "Полный сценарий работы магазина одежды",
+      "item": [
+        {
+          "name": "✅ Шаг 1: Регистрация пользователя",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Шаг 1: Регистрация нового пользователя",
+                  "pm.environment.set('timestamp', new Date().getTime());",
+                  "",
+                  "const registerBody = {",
+                  "    username: `test_user_${pm.environment.get('timestamp')}`,", 
+                  "    password: 'TestPassword123',",
+                  "    email: `test_${pm.environment.get('timestamp')}@example.com`,", 
+                  "    full_name: 'Тестовый Пользователь',",
+                  "    role: 'customer'",
+                  "};",
+                  "",
+                  "pm.environment.set('test_user', JSON.stringify(registerBody));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{test_user}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Шаг 2: Аутентификация",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Шаг 2: Аутентификация пользователя",
+                  "const userData = JSON.parse(pm.environment.get('test_user'));",
+                  "",
+                  "const loginBody = {",
+                  "    username: userData.username,",
+                  "    password: userData.password",
+                  "};",
+                  "",
+                  "pm.environment.set('login_body', JSON.stringify(loginBody));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{login_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "v1", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Шаг 3: Создание товара (CQRS)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Шаг 3: Создание товара (CQRS Command)",
+                  "const newProduct = {",
+                  "    name: 'Демо куртка зимняя',",
+                  "    description: 'Теплая куртка для зимы',", 
+                  "    price: 12999.99,",
+                  "    category: 'одежда',",
+                  "    size: 'L',",
+                  "    color: 'синий',",
+                  "    stock_quantity: 25",
+                  "};",
+                  "",
+                  "pm.environment.set('new_product', JSON.stringify(newProduct));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{new_product}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5001/api/v1/products",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5001",
+              "path": ["api", "v1", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Шаг 4: Создание заказа (Saga)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Шаг 4: Создание заказа (Saga)",
+                  "const userData = JSON.parse(pm.environment.get('test_user'));",
+                  "",
+                  "const orderBody = {",
+                  "    user_id: userData.username,",
+                  "    items: [",
+                  "        {",
+                  "            product_id: 1,",
+                  "            name: 'Джинсы Levi\\'s',",
+                  "            quantity: 1,",
+                  "            price: 5000.0",
+                  "        },",
+                  "        {",
+                  "            product_id: 2,",
+                  "            name: 'Футболка Nike',",
+                  "            quantity: 2,",
+                  "            price: 2500.0",
+                  "        }",
+                  "    ]",
+                  "};",
+                  "",
+                  "pm.environment.set('order_body', JSON.stringify(orderBody));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{order_body}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Шаг 5: Проверка статуса заказа",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Шаг 5: Проверка статуса заказа",
+                  "// Задержка для обработки Saga",
+                  "setTimeout(() => {",
+                  "    console.log('Проверяем статус заказа...');",
+                  "}, 3000);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5002/api/v1/orders/{{order_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5002",
+              "path": ["api", "v1", "orders", "{{order_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "✅ Шаг 6: Проверка уведомлений",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5005/api/v1/notifications",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5005",
+              "path": ["api", "v1", "notifications"]
+            },
+            "description": "Проверка отправленных уведомлений"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Установка переменных окружения при запуске коллекции",
+          "console.log('Fashion Store Microservices - Тестирование курсовой работы');",
+          "console.log('Архитектура: 9 микросервисов, Saga, CQRS, API Gateway');",
+          "",
+          "// Создаем timestamp для уникальных данных",
+          "if (!pm.environment.get('timestamp')) {",
+          "    pm.environment.set('timestamp', new Date().getTime());",
+          "}",
+          "",
+          "// Предустановленные данные",
+          "pm.environment.set('auth_token', 'test_token');",
+          "pm.environment.set('order_id', 'test_order_123');"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Общие тесты для всех запросов",
+          "pm.test('Статус код успешный', function () {",
+          "    pm.response.to.have.status([200, 201, 202]);",
+          "});",
+          "",
+          "pm.test('Ответ в формате JSON', function () {",
+          "    pm.response.to.be.json;",
+          "});",
+          "",
+          "pm.test('Время ответа приемлемое', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost"
+    },
+    {
+      "key": "auth_token",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "test_user",
+      "value": ""
+    }
+  ],
+  "auth": null
+}
