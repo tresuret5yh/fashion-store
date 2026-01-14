@@ -1,6 +1,5 @@
-
 services:
-  # Базы данных
+  # База данных
   postgres:
     image: postgres:14-alpine
     environment:
@@ -9,17 +8,22 @@ services:
       POSTGRES_DB: fashion_store
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-  # Kafka
+  # Kafka (опционально, если используется)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -37,6 +41,14 @@ services:
       - AUTH_SERVICE_URL=http://auth-service:5000
       - CATALOG_SERVICE_URL=http://catalog-service:5001
       - ORDER_SERVICE_URL=http://order-service:5002
+      - REVIEW_SERVICE_URL=http://review-service:5006
+      - USER_SERVICE_URL=http://user-service:5007
+    depends_on:
+      - auth-service
+      - catalog-service
+      - order-service
+      - review-service
+      - user-service
 
   auth-service:
     build: ./auth-service
@@ -88,3 +100,23 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
 
+  review-service:
+    build: ./review-service
+    ports:
+      - "5006:5006"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://admin:password@postgres:5432/fashion_store
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "5007:5007"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://admin:password@postgres:5432/fashion_store
+
+volumes:
+  postgres_data:

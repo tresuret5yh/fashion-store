@@ -1,17 +1,54 @@
 # Магазин одежды и обуви - Микросервисная архитектура
 
-## Описание проекта
-Система интернет-магазина одежды и обуви, построенная на микросервисной архитектуре.
+## Обновленная архитектура
+- **9 микросервисов**: API Gateway, Auth, Catalog, Order, Payment, Inventory, Notification, User Profile, Analytics
+- **Service Discovery**: Consul для динамического обнаружения сервисов
+- **Оркестрация**: Kubernetes для production окружения
+- **Паттерны**: Saga, CQRS, API Gateway, Circuit Breaker, Event-Driven
+- **Коммуникация**: HTTP/REST, Kafka (асинхронная), Consul DNS
+- **Мониторинг**: Prometheus + Grafana + Consul Health Checks
 
-## Архитектура
-- **9 микросервисов**: API Gateway, Auth, Catalog, Order, Payment, Inventory, Notification
-- **Паттерны**: Saga, CQRS, API Gateway, Circuit Breaker
-- **Коммуникация**: HTTP/REST (синхронная), Kafka (асинхронная)
-- **Мониторинг**: Prometheus + Grafana
+## Новые сервисы
 
-## Запуск проекта
+### 1. User Profile Service (порт 5006)
+- Управление профилями пользователей
+- Адреса доставки и предпочтения
+- История активности пользователей
+- Интеграция с Auth Service через Consul
 
-1. Клонировать репозиторий:
+### 2. Analytics Service (порт 5007)
+- Сбор и анализ данных из Kafka
+- Генерация отчетов и дашбордов
+- Прогнозирование продаж
+- Экспорт данных в CSV
+
+## Service Discovery - Consul
+Все микросервисы автоматически регистрируются в Consul при запуске:
+- Health checks каждые 10 секунд
+- DNS-адресация: `service-name.fashion-store.svc.cluster.local`
+- Веб-интерфейс: http://localhost:8500
+
+## Kubernetes Deployment
+
+### Требования:
+- Minikube или Kubernetes кластер
+- Helm (опционально)
+- kubectl
+
+### Установка:
 ```bash
-git clone <repository-url>
-cd fashion-store
+# Создание namespace
+kubectl apply -f k8s/namespace.yaml
+
+# Установка секретов и конфигураций
+kubectl apply -f k8s/secrets.yaml
+kubectl apply -f k8s/configmap.yaml
+
+# Установка Consul
+kubectl apply -f k8s/deployments/consul.yaml
+
+# Установка микросервисов
+kubectl apply -f k8s/deployments/
+
+# Установка Ingress
+kubectl apply -f k8s/ingress/

@@ -76,6 +76,14 @@ scrape_configs:
           service: 'notification-service'
           environment: 'development'
     metrics_path: '/metrics'
+  # User Service
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['user-service:5007']
+        labels:
+          service: 'user-service'
+          environment: 'development'
+    metrics_path: '/metrics'
 
   # Kafka (если есть экспортер метрик)
   - job_name: 'kafka'
