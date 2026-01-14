@@ -3,7 +3,6 @@
 ## Обновленная архитектура
 - **9 микросервисов**: API Gateway, Auth, Catalog, Order, Payment, Inventory, Notification, User Profile, Analytics
 - **Service Discovery**: Consul для динамического обнаружения сервисов
-- **Оркестрация**: Kubernetes для production окружения
 - **Паттерны**: Saga, CQRS, API Gateway, Circuit Breaker, Event-Driven
 - **Коммуникация**: HTTP/REST, Kafka (асинхронная), Consul DNS
 - **Мониторинг**: Prometheus + Grafana + Consul Health Checks
