@@ -41,6 +41,8 @@ services:
       - AUTH_SERVICE_URL=http://auth-service:5000
       - CATALOG_SERVICE_URL=http://catalog-service:5001
       - ORDER_SERVICE_URL=http://order-service:5002
+      - INVENTORY_SERVICE_URL=http://inventory-service:5004
+      - NOTIFICATION_SERVICE_URL=http://notification-service:5005
       - REVIEW_SERVICE_URL=http://review-service:5006
       - USER_SERVICE_URL=http://user-service:5007
     depends_on:

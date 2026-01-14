@@ -214,11 +214,17 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYVx1MDQzMFx1MDQ0MFx1MDQzOFx1MDQzZFx1MDQzMCIsInJvbGUiOiJjdXN0b21lcnIiLCJleHAiOjE3Njg0NjkyOTF9.fD6Z-i3ZnSfIrMejq7DlHhfEji0wpSNEIZxTFayjaeg",
+                "type": "text",
+                "uuid": "75f0841e-a783-4ac4-943a-585a1e4e638e"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"Карина\",\n    \"password\": \"SecurePass123\",\n    \"email\": \"Karina_test@example.com\",\n    \"full_name\": \"Карина Тестовая\",\n    \"role\": \"customerr\"\n}",
+              "raw": "{\n    \"username\": \"Лена\",\n    \"password\": \"SecurePass123\",\n    \"email\": \"Lena_test@example.com\",\n    \"full_name\": \"Елена Михайлова\",\n    \"role\": \"клиент\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -255,14 +261,15 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYVx1MDQzMFx1MDQ0MFx1MDQzOFx1MDQzZFx1MDQzMCIsInJvbGUiOiJjdXN0b21lcnIiLCJleHAiOjE3Njg0NjkyMTl9.n4jus8hA2eECvQQkIySgKtrSi2PRczV5fHn-jCRxQ30",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYVx1MDQzMFx1MDQ0MFx1MDQzOFx1MDQzZFx1MDQzMCIsInJvbGUiOiJjdXN0b21lcnIiLCJleHAiOjE3Njg0NzA4ODZ9.vQ-02s4gNPTRPCESxpG3DDa51zWwdozC6L0ApbvneSk",
                 "type": "text",
-                "uuid": "993b690b-9b96-4897-aba8-ef0bcd40df3d"
+                "uuid": "993b690b-9b96-4897-aba8-ef0bcd40df3d",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"Карина\",\n    \"password\": \"SecurePass123\"\n}",
+              "raw": "{\n    \"username\": \"Лена\",\n    \"password\": \"SecurePass123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -295,9 +302,9 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaWNlX3Rlc3QiLCJyb2xlIjoiY3VzdG9tZXIiLCJleHAiOjE3Njg0NjU2MjJ9.ZXT1IXD_eDMrOXCu8peB_vReVvT2G0ObSQ9qBXEFde0}}",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg0Nzc5NTJ9.P-MHyKiajkyy3YWic90WOgdRxIXX-v3JE-m3i-mCt74",
                 "type": "text",
-                "uuid": "ee5ac3d8-4a10-422b-95ff-d3ad8e4f3627"
+                "uuid": "4426a823-f911-4faf-b595-ddfb5cac8f4f"
               }
             ],
             "url": {
@@ -650,7 +657,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{auth_token}}"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0NzY3OTF9.xclovja4sVjfBwWvBJAd9ZRw3afdWqPBNcZRJERCO3M"
               }
             ],
             "url": {
@@ -740,7 +747,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8000/api/v1/user/{{user_id}}",
+              "raw": "http://localhost:8000/api/v1/user/test_user_1768385305593",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -750,7 +757,7 @@
                 "api",
                 "v1",
                 "user",
-                "{{user_id}}"
+                "test_user_1768385305593"
               ]
             },
             "description": "Доступ к User Service через API Gateway"
@@ -871,6 +878,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "aa432775-9995-4f8d-9386-063a7d366fbb",
                 "exec": [
                   "// Шаг 1: Регистрация нового пользователя",
                   "pm.environment.set('timestamp', new Date().getTime());",
@@ -885,7 +893,21 @@
                   "",
                   "pm.environment.set('test_user', JSON.stringify(registerBody));"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "70d509ec-6303-48a2-a390-a272d87fe3c2",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -900,7 +922,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{test_user}}",
+              "raw": "{\r\n    \"username\": \"Саша\",\r\n    \"password\": \"SecurePass123\",\r\n    \"email\": \"Sasha_test@example.com\",\r\n    \"full_name\": \"Саша Смиронова\",\r\n    \"role\": \"пользователь\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -930,6 +952,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "fa6d3c61-9f2a-4eff-8ab1-22ec1a283cc3",
                 "exec": [
                   "// Шаг 2: Аутентификация пользователя",
                   "const userData = JSON.parse(pm.environment.get('test_user'));",
@@ -941,7 +964,21 @@
                   "",
                   "pm.environment.set('login_body', JSON.stringify(loginBody));"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "ccaf6dde-4b29-49de-af9b-62df4e09e628",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -952,11 +989,18 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RfdXNlcl8xNzY4Mzg1MzA1NTkzIiwicm9sZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzY4NDcxODMzfQ.T09bexme54i7ttO75_uk3goElHp22DEvU9iulD4lWJg",
+                "type": "text",
+                "uuid": "6b47a236-0e6e-4bef-9956-fb6ec85cc45d",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{login_body}}",
+              "raw": "{\"username\":\"Саша\",\r\n\"password\":\"SecurePass123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -986,6 +1030,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "34c747eb-1c8d-463c-8795-72dafe048b3f",
                 "exec": [
                   "// Шаг 3: Создание товара (CQRS Command)",
                   "const newProduct = {",
@@ -1000,7 +1045,21 @@
                   "",
                   "pm.environment.set('new_product', JSON.stringify(newProduct));"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "d5b7c441-da0b-46c1-bba7-dafa43bf1ef2",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1015,7 +1074,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{new_product}}",
+              "raw": "{\r\n  \"name\": \"Куртка зимний\",\r\n  \"description\": \"Куртка с карманами\",\r\n  \"price\": 4700.00,\r\n  \"category\": \"одежда\",\r\n  \"size\": \"M\",\r\n  \"color\": \"белый\",\r\n  \"stock_quantity\": 10\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1044,6 +1103,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "1602655c-a5d7-47ee-9bf8-f4adcfb30fe7",
                 "exec": [
                   "// Шаг 4: Создание заказа (Saga)",
                   "const userData = JSON.parse(pm.environment.get('test_user'));",
@@ -1068,7 +1128,21 @@
                   "",
                   "pm.environment.set('order_body', JSON.stringify(orderBody));"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "3f8228b9-9b57-4011-aa61-b7693361a3a4",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1083,7 +1157,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{order_body}}",
+              "raw": "{\r\n   \"user_id\": \"test_user_1768385305593\",\r\n    \"items\": [\r\n        {\r\n            \"product_id\": 4,\r\n            \"name\": \"Футболка базовая\",\r\n            \"quantity\": 2,\r\n            \"price\": 1499.5\r\n       }\r\n    ]\r\n      }\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1112,6 +1186,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "87ea2739-d383-41b5-8420-1f35245c44c3",
                 "exec": [
                   "// Шаг 5: Проверка статуса заказа",
                   "// Задержка для обработки Saga",
@@ -1119,7 +1194,21 @@
                   "    console.log('Проверяем статус заказа...');",
                   "}, 3000);"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "7986eae3-381b-4247-9b4f-bae36345d247",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1128,7 +1217,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5002/api/v1/orders/{{order_id}}",
+              "raw": "http://localhost:5002/api/v1/orders/e2e21d2d",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1138,7 +1227,7 @@
                 "api",
                 "v1",
                 "orders",
-                "{{order_id}}"
+                "e2e21d2d"
               ]
             }
           },
@@ -1149,7 +1238,15 @@
           "id": "3eb3356c-f8d6-4038-853a-7a71d703c2d4",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "uuid": "91cb4f4c-ea01-44b1-8d3b-c86a42b16d57",
+                "disabled": true
+              }
+            ],
             "url": {
               "raw": "http://localhost:5005/api/v1/notifications",
               "protocol": "http",
@@ -1173,6 +1270,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "6877d2b1-d71d-49a2-b73b-c0b78adc95a0",
                 "exec": [
                   "// Шаг 7: Создание профиля в User Service",
                   "const userData = JSON.parse(pm.environment.get('test_user'));",
@@ -1188,7 +1286,21 @@
                   "pm.environment.set('profile_body', JSON.stringify(profileBody));",
                   "pm.environment.set('user_id', userData.username);"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "dfe5576c-0f6d-4c0e-aac9-154ff6547e81",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1199,11 +1311,17 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0Nzg5OTF9.xSsFKffFkNBZTQGwhlm5tmeYUG1n4U5q6SPCeyaK4Q0",
+                "type": "text",
+                "uuid": "71787bed-e32e-49ba-baf7-5354cc413734"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{profile_body}}",
+              "raw": "{\r\n  \"full_name\": \"Саша Смиронова\",\r\n  \"email\": \"Sasha_test@example.com\",\r\n  \"phone\": \"+79991234567\",\r\n  \"address\": \"ул. Ленина, д. 1\",\r\n  \"city\": \"Москва\",\r\n  \"country\": \"Россия\",\r\n  \"postal_code\": \"123456\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1211,7 +1329,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8000/api/v1/user/{{user_id}}",
+              "raw": "http://localhost:8000/api/v1/user/test_user_1768385305593",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1221,7 +1339,7 @@
                 "api",
                 "v1",
                 "user",
-                "{{user_id}}"
+                "test_user_1768385305593"
               ]
             }
           },
@@ -1233,6 +1351,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "45f0e1e1-9d37-4e5b-8a95-9805a78be7de",
                 "exec": [
                   "// Шаг 8: Оставить отзыв на товар",
                   "const reviewBody = {",
@@ -1243,7 +1362,21 @@
                   "};",
                   "pm.environment.set('review_body', JSON.stringify(reviewBody));"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "2eb91162-d11d-4663-b76b-37fa80a04c34",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1258,7 +1391,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{{review_body}}",
+              "raw": "{\r\n  \"product_id\": 17,\r\n  \"user_id\": \"Саша\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Отличная футболка!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1286,7 +1419,21 @@
           "id": "g7h8i9j0-k1l2-m3n4-o5p6-q7r8s9t0u1v2",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0Nzg5OTF9.xSsFKffFkNBZTQGwhlm5tmeYUG1n4U5q6SPCeyaK4Q0",
+                "type": "text",
+                "uuid": "c393f6a5-d4ee-4a20-9d8f-9cf07366a75b"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "uuid": "c24d3de8-dcb9-4b12-b3db-e5d7347a6cb4",
+                "disabled": true
+              }
+            ],
             "url": {
               "raw": "http://localhost:8000/api/v1/review/product/1",
               "protocol": "http",
@@ -1327,16 +1474,15 @@
                 "type": "text"
               },
               {
-                "key": "Proxy-Authorization",
-                "value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYVx1MDQzMFx1MDQ0MFx1MDQzOFx1MDQzZFx1MDQzMCIsInJvbGUiOiJjdXN0b21lcnIiLCJleHAiOjE3Njg0Njc2MTR9.DaBGmdPHEXdd-IhvmRmNk9oKN9TRKw-2bck9loYEx0E\"",
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg0NzgyMTV9.m-dgtG8fHx_5UuHYwkRkeTzYtdGtUso8bJkTP7lXvs4",
                 "type": "text",
-                "uuid": "46ba5b08-f81a-43ab-b5ab-d08b83e4f686",
-                "disabled": true
+                "uuid": "0048cb39-7aa7-4264-83d7-e5b57dabca99"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"full_name\": \"Карина Тестовая\",\n  \"email\": \"Karina_test@example.com\",\n  \"phone\": \"+79991234567\",\n  \"address\": \"ул. Ленина, д. 1\",\n  \"city\": \"Москва\",\n  \"country\": \"Россия\",\n  \"postal_code\": \"123456\"\n}\n\n\n",
+              "raw": "{\n  \"full_name\": \"Лена Михайлова\",\n  \"email\": \"Lena_test@example.com\",\n  \"phone\": \"+79991234567\",\n  \"address\": \"ул. Ленина, д. 1\",\n  \"city\": \"Москва\",\n  \"country\": \"Россия\",\n  \"postal_code\": \"123456\"\n}\n\n\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1368,11 +1514,11 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{auth_token}}"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg0NzgyMTV9.m-dgtG8fHx_5UuHYwkRkeTzYtdGtUso8bJkTP7lXvs4"
               }
             ],
             "url": {
-              "raw": "http://localhost:8000/api/v1/user/test_user_123",
+              "raw": "http://localhost:8000/api/v1/user/Карина",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1382,7 +1528,7 @@
                 "api",
                 "v1",
                 "user",
-                "test_user_123"
+                "Карина"
               ]
             }
           },
@@ -1440,12 +1586,20 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json"
+                "value": "application/json",
+                "disabled": true
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg0NzgyMTV9.m-dgtG8fHx_5UuHYwkRkeTzYtdGtUso8bJkTP7lXvs4",
+                "type": "text",
+                "uuid": "4944219a-5574-435c-87eb-d1f316891056",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"product_id\": 1,\n  \"user_id\": \"test_user_123\",\n  \"rating\": 5,\n  \"comment\": \"Отличные джинсы!\"\n}",
+              "raw": "{\n  \"product_id\": 2,\n  \"user_id\": \"Карина\",\n  \"rating\": 5,\n  \"comment\": \"Отличные джинсы!\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1453,7 +1607,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8000/api/v1/review/1",
+              "raw": "http://localhost:8000/api/v1/review/",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1463,7 +1617,7 @@
                 "api",
                 "v1",
                 "review",
-                "1"
+                ""
               ]
             }
           },
@@ -1494,28 +1648,23 @@
           "response": []
         },
         {
-          "name": "New Request",
-          "id": "d0924434-3d13-4ece-be3e-79f654bf9fe0",
+          "name": "Остатки товаров",
+          "id": "bf5250f7-cc85-4017-a3be-5ad49b582f21",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5005/api/v1/notifications?user_id=alice_test",
+              "raw": "http://localhost:5004/api/v1/inventory/2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "5005",
+              "port": "5004",
               "path": [
                 "api",
                 "v1",
-                "notifications"
-              ],
-              "query": [
-                {
-                  "key": "user_id",
-                  "value": "alice_test"
-                }
+                "inventory",
+                "2"
               ]
             }
           },
