@@ -33,8 +33,10 @@ class Review(db.Model):
 def metrics():
     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
+# Основные эндпоинты (множественное число) - для прямого доступа
 @app.route('/api/v1/reviews', methods=['POST'])
 def create_review():
+    """Создание отзыва (множественное число)"""
     REQUEST_COUNT.labels(method='POST', endpoint='/reviews').inc()
     start = time.time()
     try:
@@ -62,6 +64,7 @@ def create_review():
 
 @app.route('/api/v1/reviews/product/<int:product_id>', methods=['GET'])
 def get_reviews_by_product(product_id):
+    """Получение отзывов по товару (множественное число)"""
     REQUEST_COUNT.labels(method='GET', endpoint='/reviews/product').inc()
     start = time.time()
     try:
@@ -84,14 +87,72 @@ def get_reviews_by_product(product_id):
     finally:
         REQUEST_LATENCY.observe(time.time() - start)
 
+# Эндпоинты для API Gateway (единственное число)
+@app.route('/api/v1/review', methods=['POST'])
+def create_review_gateway():
+    """Создание отзыва через API Gateway (единственное число)"""
+    return create_review()
+
+@app.route('/api/v1/review/', methods=['POST'])
+def create_review_gateway_with_slash():
+    """Создание отзыва через API Gateway (с trailing slash)"""
+    return create_review()
+
+@app.route('/api/v1/review/product/<int:product_id>', methods=['GET'])
+def get_reviews_by_product_gateway(product_id):
+    """Получение отзывов по товару через API Gateway (единственное число)"""
+    return get_reviews_by_product(product_id)
+
+@app.route('/api/v1/review/product/<int:product_id>/', methods=['GET'])
+def get_reviews_by_product_gateway_with_slash(product_id):
+    """Получение отзывов по товару через API Gateway (с trailing slash)"""
+    return get_reviews_by_product(product_id)
+
 @app.route('/health', methods=['GET'])
 def health_check():
+    """Проверка здоровья сервиса"""
+    try:
+        # Проверка подключения к БД
+        db.session.execute(db.text('SELECT 1'))
+        db_status = 'connected'
+    except Exception as e:
+        db_status = f'error: {str(e)}'
+    
+    reviews_count = Review.query.count()
+    
     return jsonify({
         'status': 'healthy',
-        'service': 'review-service'
+        'service': 'review-service',
+        'database': db_status,
+        'reviews_count': reviews_count,
+        'endpoints': {
+            'create_review': '/api/v1/review (POST)',
+            'get_reviews': '/api/v1/review/product/<id> (GET)'
+        }
     }), 200
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        # Создаем тестовые данные, если таблица пуста
+        if Review.query.count() == 0:
+            test_reviews = [
+                Review(product_id=1, user_id='customer1', rating=5, comment='Отличный товар!'),
+                Review(product_id=1, user_id='customer2', rating=4, comment='Хорошее качество'),
+                Review(product_id=2, user_id='customer1', rating=3, comment='Нормально'),
+                Review(product_id=3, user_id='customer2', rating=5, comment='Супер!'),
+            ]
+            db.session.add_all(test_reviews)
+            db.session.commit()
+            print(f"Создано {len(test_reviews)} тестовых отзывов")
+    
+    print("Review Service запущен")
+    print("Доступные эндпоинты:")
+    print("- POST /api/v1/reviews - Создать отзыв (прямой доступ)")
+    print("- POST /api/v1/review - Создать отзыв (через Gateway)")
+    print("- GET /api/v1/reviews/product/<id> - Получить отзывы товара (прямой доступ)")
+    print("- GET /api/v1/review/product/<id> - Получить отзывы товара (через Gateway)")
+    print("- GET /health - Проверка здоровья")
+    print("- GET /metrics - Метрики Prometheus")
+    
     app.run(host='0.0.0.0', port=5006, debug=True)

@@ -3,10 +3,15 @@ from flask import Flask, request, jsonify
 import requests
 import os
 import time
+import logging
 from functools import wraps
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter, Histogram
 
 app = Flask(__name__)
+
+# Настройка логирования
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # === Метрики Prometheus ===
 REQUEST_COUNT = Counter(
@@ -49,9 +54,14 @@ PUBLIC_ENDPOINTS = [
     ('catalog', 'products/<int:product_id>', ['GET']),
     ('catalog', 'health', ['GET']),
     
-    # Review service - публичные эндпоинты (только чтение)
+    # Review service - публичные эндпоинты
+    ('review', 'review', ['POST']),  # создание отзывов
+    ('review', 'review/', ['POST']),  # с trailing slash
     ('review', 'product/<int:product_id>', ['GET']),
     ('review', 'health', ['GET']),
+    
+    # User service - публичные эндпоинты
+    ('user', 'health', ['GET']),
     
     # Health checks всех сервисов
     ('*', 'health', ['GET']),  # health всех сервисов
@@ -63,6 +73,8 @@ PUBLIC_ENDPOINTS = [
 def require_auth(f):
     @wraps(f)
     def decorated(service, path, *args, **kwargs):
+        logger.debug(f"Проверка авторизации для: {service}/{path} [{request.method}]")
+        
         # Проверяем, является ли эндпоинт публичным
         for endpoint_service, endpoint_path, methods in PUBLIC_ENDPOINTS:
             # Проверка по сервису
@@ -70,28 +82,30 @@ def require_auth(f):
                 continue
             
             # Проверка по пути
-            if endpoint_path.endswith('>'):
+            if '<' in endpoint_path:
                 # Если есть параметр в пути (например, <int:product_id>)
                 base_path = endpoint_path.split('<')[0]
                 if path.startswith(base_path):
                     if request.method in methods:
                         # Публичный эндпоинт - пропускаем проверку авторизации
+                        logger.debug(f"Публичный эндпоинт: {service}/{endpoint_path}")
                         return f(service, path, *args, **kwargs)
             else:
                 # Обычный путь
                 if path == endpoint_path or path.startswith(endpoint_path + '/'):
                     if request.method in methods:
                         # Публичный эндпоинт - пропускаем проверку авторизации
+                        logger.debug(f"Публичный эндпоинт: {service}/{endpoint_path}")
                         return f(service, path, *args, **kwargs)
         
         # Проверяем авторизацию для защищенных эндпоинтов
         token = request.headers.get('Authorization')
         if not token:
             REQUEST_COUNT.labels(service='gateway', method=request.method, status='401').inc()
+            logger.warning(f"Требуется авторизация для: {service}/{path}")
             return jsonify({'error': 'Требуется аутентификация'}), 401
         
-        # Можно добавить дополнительную проверку токена через auth-service
-        # Но для простоты проверяем только наличие заголовка
+        logger.debug(f"Заголовок Authorization присутствует для: {service}/{path}")
         
         return f(service, path, *args, **kwargs)
     return decorated
@@ -109,13 +123,15 @@ def health_check():
 @app.route('/api/v1/<service>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @require_auth
 def proxy(service, path):
+    """Прокси-метод для маршрутизации запросов к микросервисам"""
     if service not in SERVICES:
         REQUEST_COUNT.labels(service='gateway', method=request.method, status='404').inc()
+        logger.error(f"Сервис не найден: {service}")
         return jsonify({'error': 'Сервис не найден'}), 404
 
     service_url = SERVICES[service]
 
-    # Преобразование путей
+    # Преобразование путей для разных сервисов
     if service == 'user':
         target_path = f"api/v1/users/{path}"
     elif service == 'review':
@@ -125,38 +141,59 @@ def proxy(service, path):
         target_path = f"api/v1/{path}"
 
     url = f"{service_url}/{target_path}"
+    logger.info(f"Маршрутизация: {request.method} /api/v1/{service}/{path} -> {url}")
+    
     start_time = time.time()
 
     try:
         upstream_start = time.time()
+        
+        # Подготавливаем заголовки
+        headers = dict(request.headers)
+        if 'Host' in headers:
+            del headers['Host']
+        
+        # Проксируем запрос
         response = requests.request(
             method=request.method,
             url=url,
-            headers={key: value for key, value in request.headers if key != 'Host'},
+            headers=headers,
             data=request.get_data(),
             params=request.args,
             cookies=request.cookies,
             allow_redirects=False,
             timeout=10
         )
+        
         upstream_duration = time.time() - upstream_start
         UPSTREAM_LATENCY.labels(service=service).observe(upstream_duration)
 
         status = str(response.status_code)
         REQUEST_COUNT.labels(service=service, method=request.method, status=status).inc()
         REQUEST_LATENCY.labels(service=service).observe(time.time() - start_time)
+        
+        logger.debug(f"Ответ от {service}: статус {status}, время {upstream_duration:.3f}с")
 
+        # Возвращаем ответ как есть от целевого сервиса
         return (response.content, response.status_code, dict(response.headers))
 
     except requests.exceptions.Timeout:
         REQUEST_COUNT.labels(service=service, method=request.method, status='504').inc()
-        return jsonify({'error': f'Таймаут к {service}'}), 504
+        logger.error(f"Таймаут подключения к {service}: {url}")
+        return jsonify({'error': f'Таймаут подключения к сервису {service}'}), 504
     except requests.exceptions.ConnectionError:
         REQUEST_COUNT.labels(service=service, method=request.method, status='502').inc()
-        return jsonify({'error': f'Нет соединения с {service}'}), 502
+        logger.error(f"Ошибка подключения к {service}: {url}")
+        return jsonify({'error': f'Нет соединения с сервисом {service}'}), 502
     except Exception as e:
         REQUEST_COUNT.labels(service=service, method=request.method, status='500').inc()
-        return jsonify({'error': 'Внутренняя ошибка шлюза'}), 500
+        logger.error(f"Внутренняя ошибка шлюза для {service}: {str(e)}")
+        return jsonify({'error': 'Внутренняя ошибка шлюза', 'details': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    logger.info("API Gateway запущен на порту 8000")
+    logger.info("Доступные сервисы:")
+    for service, url in SERVICES.items():
+        logger.info(f"  - {service}: {url}")
+    
+    app.run(host='0.0.0.0', port=8000, debug=False)
