@@ -1,7 +1,4 @@
-"""
-API Gateway для магазина одежды и обуви.
-Обеспечивает единую точку входа, маршрутизацию и сбор метрик.
-"""
+"""API Gateway для магазина одежды и обуви."""
 from flask import Flask, request, jsonify
 import requests
 import os
@@ -39,14 +36,64 @@ SERVICES = {
     'notification': os.getenv('NOTIFICATION_SERVICE_URL', 'http://notification-service:5005'),  
 }
 
+# Эндпоинты, НЕ требующие аутентификации
+# Формат: (сервис, путь, методы)
+PUBLIC_ENDPOINTS = [
+    # Auth service - публичные эндпоинты
+    ('auth', 'login', ['POST']),
+    ('auth', 'register', ['POST']),
+    ('auth', 'health', ['GET']),
+    
+    # Catalog service - публичные эндпоинты (только чтение)
+    ('catalog', 'products', ['GET']),
+    ('catalog', 'products/<int:product_id>', ['GET']),
+    ('catalog', 'health', ['GET']),
+    
+    # Review service - публичные эндпоинты (только чтение)
+    ('review', 'product/<int:product_id>', ['GET']),
+    ('review', 'health', ['GET']),
+    
+    # Health checks всех сервисов
+    ('*', 'health', ['GET']),  # health всех сервисов
+    
+    # Metrics для мониторинга
+    ('*', 'metrics', ['GET']),
+]
+
 def require_auth(f):
     @wraps(f)
-    def decorated(*args, **kwargs):
+    def decorated(service, path, *args, **kwargs):
+        # Проверяем, является ли эндпоинт публичным
+        for endpoint_service, endpoint_path, methods in PUBLIC_ENDPOINTS:
+            # Проверка по сервису
+            if endpoint_service not in ['*', service]:
+                continue
+            
+            # Проверка по пути
+            if endpoint_path.endswith('>'):
+                # Если есть параметр в пути (например, <int:product_id>)
+                base_path = endpoint_path.split('<')[0]
+                if path.startswith(base_path):
+                    if request.method in methods:
+                        # Публичный эндпоинт - пропускаем проверку авторизации
+                        return f(service, path, *args, **kwargs)
+            else:
+                # Обычный путь
+                if path == endpoint_path or path.startswith(endpoint_path + '/'):
+                    if request.method in methods:
+                        # Публичный эндпоинт - пропускаем проверку авторизации
+                        return f(service, path, *args, **kwargs)
+        
+        # Проверяем авторизацию для защищенных эндпоинтов
         token = request.headers.get('Authorization')
         if not token:
             REQUEST_COUNT.labels(service='gateway', method=request.method, status='401').inc()
             return jsonify({'error': 'Требуется аутентификация'}), 401
-        return f(*args, **kwargs)
+        
+        # Можно добавить дополнительную проверку токена через auth-service
+        # Но для простоты проверяем только наличие заголовка
+        
+        return f(service, path, *args, **kwargs)
     return decorated
 
 @app.route('/metrics')

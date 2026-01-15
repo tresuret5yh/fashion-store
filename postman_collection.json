@@ -16,12 +16,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5007/health",
+              "raw": "http://localhost:8000/health",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "5007",
+              "port": "8000",
               "path": [
                 "health"
               ]
@@ -302,7 +302,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg0Nzc5NTJ9.P-MHyKiajkyy3YWic90WOgdRxIXX-v3JE-m3i-mCt74",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg1NTExOTd9.dBbxAljxHVK-0OCYihPJG_UY6eg4DZHhyT19kAUf--A",
                 "type": "text",
                 "uuid": "4426a823-f911-4faf-b595-ddfb5cac8f4f"
               }
@@ -369,7 +369,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Платье вечернее атласное\",\n  \"description\": \"Элегантное платье из атласа с открытой спиной и драпировкой\",\n  \"price\": 15999.00,\n  \"category\": \"одежда\",\n  \"size\": \"M\",\n  \"color\": \"бордовый\",\n  \"stock_quantity\": 10\n}\n\n\n",
+              "raw": "{\n  \"name\": \"Платье вечернее атласное\",\n  \"description\": \"Элегантное платье из атласа с открытой спиной и драпировкой\",\n  \"price\": 3790.00,\n  \"category\": \"одежда\",\n  \"size\": \"M\",\n  \"color\": \"красный\",\n  \"stock_quantity\": 10\n}\n\n\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -423,7 +423,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5001/api/v1/products/1",
+              "raw": "http://localhost:5001/api/v1/products/7",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -433,7 +433,7 @@
                 "api",
                 "v1",
                 "products",
-                "1"
+                "7"
               ]
             },
             "description": "Получение информации о конкретном товаре (CQRS - Query операция)"
@@ -571,7 +571,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"user_id\": \"customer1\",\n    \"items\": [\n        {\n            \"product_id\": 999,\n            \"name\": \"Несуществующий товар\",\n            \"quantity\": 100,\n            \"price\": 100000.0\n        }\n    ]\n}",
+              "raw": "{\n    \"user_id\": \"customer1\",\n    \"items\": [\n        {\n            \"product_id\": 999,\n            \"name\": \"Куртка зимняя\",\n            \"quantity\": 100,\n            \"price\": 100000.0\n        }\n    ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -602,7 +602,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5002/api/v1/orders/10385d55",
+              "raw": "http://localhost:5002/api/v1/orders/37955c54",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -612,7 +612,7 @@
                 "api",
                 "v1",
                 "orders",
-                "10385d55"
+                "37955c54"
               ]
             },
             "description": "Получение текущего статуса заказа Saga"
@@ -776,7 +776,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8000/api/v1/review/product/1",
+              "raw": "http://localhost:8000/api/v1/review/product/4",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -787,7 +787,7 @@
                 "v1",
                 "review",
                 "product",
-                "1"
+                "4"
               ]
             },
             "description": "Доступ к Review Service через API Gateway"
@@ -808,12 +808,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/metrics",
+              "raw": "http://localhost:5002/metrics",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "5000",
+              "port": "5002",
               "path": [
                 "metrics"
               ]
