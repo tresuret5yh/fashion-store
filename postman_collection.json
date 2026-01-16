@@ -224,7 +224,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"Лена\",\n    \"password\": \"SecurePass123\",\n    \"email\": \"Lena_test@example.com\",\n    \"full_name\": \"Елена Михайлова\",\n    \"role\": \"клиент\"\n}",
+              "raw": "{\n    \"username\": \"Лена\",\n    \"password\": \"SecurePass123\",\n    \"email\": \"Lena_test@example.com\",\n    \"full_name\": \"Елена Михайлова\",\n    \"role\": \"customer\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -302,7 +302,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJcdTA0M2FcdTA0M2JcdTA0MzhcdTA0MzVcdTA0M2RcdTA0NDIiLCJleHAiOjE3Njg1NTExOTd9.dBbxAljxHVK-0OCYihPJG_UY6eg4DZHhyT19kAUf--A",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQxYlx1MDQzNVx1MDQzZFx1MDQzMCIsInJvbGUiOiJjdXN0b21lciIsImV4cCI6MTc2ODY1MDcwMX0.d47wLsI60htzs_DzMMzlNxcmN7caH_6SPZo6xXorlhg",
                 "type": "text",
                 "uuid": "4426a823-f911-4faf-b595-ddfb5cac8f4f"
               }
@@ -534,7 +534,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n   \"username\": \"Карина\",\n    \"items\": [\n        {\n            \"product_id\": 4,\n            \"name\": \"Футболка базовая\",\n            \"quantity\": 2,\n            \"price\": 1499.5\n        },\n        {\n            \"product_id\": 2,\n            \"name\": \"зимняя\",\n            \"quantity\": 1,\n            \"price\": 12999.99\n        }\n    ]\n}",
+              "raw": "{\n   \"username\": \"Лена\",\n    \"items\": [\n        {\n            \"product_id\": 4,\n            \"name\": \"Футболка базовая\",\n            \"quantity\": 2,\n            \"price\": 1499.5\n        },\n        {\n            \"product_id\": 2,\n            \"name\": \"зимняя\",\n            \"quantity\": 1,\n            \"price\": 12999.99\n        }\n    ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -602,7 +602,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5002/api/v1/orders/37955c54",
+              "raw": "http://localhost:5002/api/v1/orders/42c1b5e6",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -612,7 +612,7 @@
                 "api",
                 "v1",
                 "orders",
-                "37955c54"
+                "42c1b5e6"
               ]
             },
             "description": "Получение текущего статуса заказа Saga"
@@ -650,35 +650,6 @@
       "name": "5. API Gateway Demo",
       "item": [
         {
-          "name": "GET Auth через Gateway",
-          "id": "d5a89161-ece5-4364-9172-f08945fb1a16",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0NzY3OTF9.xclovja4sVjfBwWvBJAd9ZRw3afdWqPBNcZRJERCO3M"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:8000/api/v1/auth/verify",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "verify"
-              ]
-            },
-            "description": "Доступ к Auth Service через API Gateway"
-          },
-          "response": []
-        },
-        {
           "name": "GET Catalog через Gateway",
           "id": "9249c120-8dbf-4871-92c4-2c68413ebed1",
           "request": {
@@ -708,34 +679,6 @@
           "response": []
         },
         {
-          "name": "GET Orders через Gateway",
-          "id": "aacd0c57-2e36-40f6-b276-e68211c0d3fa",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{auth_token}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:8000/api/v1/orders",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "orders"
-              ]
-            },
-            "description": "Доступ к Order Service через API Gateway"
-          },
-          "response": []
-        },
-        {
           "name": "GET User Profile через Gateway",
           "id": "c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r8",
           "request": {
@@ -747,7 +690,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8000/api/v1/user/test_user_1768385305593",
+              "raw": "http://localhost:8000/api/v1/user/Карина",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -757,40 +700,10 @@
                 "api",
                 "v1",
                 "user",
-                "test_user_1768385305593"
+                "Карина"
               ]
             },
             "description": "Доступ к User Service через API Gateway"
-          },
-          "response": []
-        },
-        {
-          "name": "GET Reviews for Product через Gateway",
-          "id": "d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s9",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{auth_token}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:8000/api/v1/review/product/4",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "review",
-                "product",
-                "4"
-              ]
-            },
-            "description": "Доступ к Review Service через API Gateway"
           },
           "response": []
         }
@@ -870,7 +783,7 @@
       "description": "Демонстрация мониторинга и метрик"
     },
     {
-      "name": "7. Complete Flow (Сквозной тест)",
+      "name": "7. Complete Flow",
       "item": [
         {
           "name": "✅ Шаг 1: Регистрация пользователя",
@@ -947,79 +860,13 @@
           "response": []
         },
         {
-          "name": "✅ Шаг 2: Аутентификация",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "id": "fa6d3c61-9f2a-4eff-8ab1-22ec1a283cc3",
-                "exec": [
-                  "// Шаг 2: Аутентификация пользователя",
-                  "const userData = JSON.parse(pm.environment.get('test_user'));",
-                  "",
-                  "const loginBody = {",
-                  "    username: userData.username,",
-                  "    password: userData.password",
-                  "};",
-                  "",
-                  "pm.environment.set('login_body', JSON.stringify(loginBody));"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "ccaf6dde-4b29-49de-af9b-62df4e09e628",
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "id": "790ae985-8bb4-4693-bd8c-2a368d5f7a0e",
+          "name": "✅ Шаг 2: Аутентификация/Логин пользователя",
+          "id": "f4b3973f-71f1-44e6-b5b8-0cf98b0ba5ba",
           "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RfdXNlcl8xNzY4Mzg1MzA1NTkzIiwicm9sZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzY4NDcxODMzfQ.T09bexme54i7ttO75_uk3goElHp22DEvU9iulD4lWJg",
-                "type": "text",
-                "uuid": "6b47a236-0e6e-4bef-9956-fb6ec85cc45d",
-                "disabled": true
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"username\":\"Саша\",\r\n\"password\":\"SecurePass123\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/v1/auth/login",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "5000",
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "login"
-              ]
+              "raw": ""
             }
           },
           "response": []
@@ -1157,7 +1004,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n   \"user_id\": \"test_user_1768385305593\",\r\n    \"items\": [\r\n        {\r\n            \"product_id\": 4,\r\n            \"name\": \"Футболка базовая\",\r\n            \"quantity\": 2,\r\n            \"price\": 1499.5\r\n       }\r\n    ]\r\n      }\r\n",
+              "raw": "{\r\n   \"user_id\": \"Саша\",\r\n    \"items\": [\r\n        {\r\n            \"product_id\": 4,\r\n            \"name\": \"Футболка базовая\",\r\n            \"quantity\": 2,\r\n            \"price\": 1499.5\r\n       }\r\n    ]\r\n      }\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1217,7 +1064,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5002/api/v1/orders/e2e21d2d",
+              "raw": "http://localhost:5002/api/v1/orders/2c5918cf",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1227,7 +1074,7 @@
                 "api",
                 "v1",
                 "orders",
-                "e2e21d2d"
+                "2c5918cf"
               ]
             }
           },
@@ -1314,7 +1161,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0Nzg5OTF9.xSsFKffFkNBZTQGwhlm5tmeYUG1n4U5q6SPCeyaK4Q0",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg1NTc2NzR9.LWC-bH8SDyc36Yk-Kw4Y5u7cCv2crm6NU2ok50l3Sv8",
                 "type": "text",
                 "uuid": "71787bed-e32e-49ba-baf7-5354cc413734"
               }
@@ -1387,11 +1234,18 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg1NTc2NzR9.LWC-bH8SDyc36Yk-Kw4Y5u7cCv2crm6NU2ok50l3Sv8",
+                "type": "text",
+                "uuid": "9d2bbb40-15b9-41ea-9e5c-12d91f3ba411",
+                "disabled": true
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"product_id\": 17,\r\n  \"user_id\": \"Саша\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Отличная футболка!\"\r\n}",
+              "raw": "{\r\n  \"product_id\": 4,\r\n  \"user_id\": \"Саша\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Отличная футболка!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1399,12 +1253,12 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8000/api/v1/review",
+              "raw": "http://localhost:5006/api/v1/review",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8000",
+              "port": "5006",
               "path": [
                 "api",
                 "v1",
@@ -1421,32 +1275,25 @@
             "method": "GET",
             "header": [
               {
-                "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilx1MDQyMVx1MDQzMFx1MDQ0OFx1MDQzMCIsInJvbGUiOiJcdTA0M2ZcdTA0M2VcdTA0M2JcdTA0NGNcdTA0MzdcdTA0M2VcdTA0MzJcdTA0MzBcdTA0NDJcdTA0MzVcdTA0M2JcdTA0NGMiLCJleHAiOjE3Njg0Nzg5OTF9.xSsFKffFkNBZTQGwhlm5tmeYUG1n4U5q6SPCeyaK4Q0",
-                "type": "text",
-                "uuid": "c393f6a5-d4ee-4a20-9d8f-9cf07366a75b"
-              },
-              {
                 "key": "Content-Type",
                 "value": "application/json",
                 "type": "text",
-                "uuid": "c24d3de8-dcb9-4b12-b3db-e5d7347a6cb4",
-                "disabled": true
+                "uuid": "c24d3de8-dcb9-4b12-b3db-e5d7347a6cb4"
               }
             ],
             "url": {
-              "raw": "http://localhost:8000/api/v1/review/product/1",
+              "raw": "http://localhost:5006/api/v1/review/product/4",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8000",
+              "port": "5006",
               "path": [
                 "api",
                 "v1",
                 "review",
                 "product",
-                "1"
+                "4"
               ]
             }
           },
@@ -1533,43 +1380,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "PUT Update User Profile",
-          "id": "j0k1l2m3-n4o5-p6q7-r8s9-t0u1v2w3x4y5",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"full_name\": \"Анна Петрова\",\n  \"email\": \"anna.petrova@example.com\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8000/api/v1/user/test_user_123",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "test_user_123"
-              ]
-            }
-          },
-          "response": []
         }
       ],
       "id": "k1l2m3n4-o5p6-q7r8-s9t0-u1v2w3x4y5z6",
@@ -1586,8 +1396,7 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": true
+                "value": "application/json"
               },
               {
                 "key": "Authorization",
@@ -1599,7 +1408,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"product_id\": 2,\n  \"user_id\": \"Карина\",\n  \"rating\": 5,\n  \"comment\": \"Отличные джинсы!\"\n}",
+              "raw": "{\n  \"product_id\": \"2\",\n  \"user_id\": \"Лена\",\n  \"rating\": 5,\n  \"comment\": \"Оличная теплая куртка!\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1607,17 +1416,16 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8000/api/v1/review/",
+              "raw": "http://localhost:5006/api/v1/review",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8000",
+              "port": "5006",
               "path": [
                 "api",
                 "v1",
-                "review",
-                ""
+                "review"
               ]
             }
           },
@@ -1630,26 +1438,33 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/api/v1/review/product/1",
+              "raw": "http://localhost:5006/api/v1/review/product/2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8000",
+              "port": "5006",
               "path": [
                 "api",
                 "v1",
                 "review",
                 "product",
-                "1"
+                "2"
               ]
             }
           },
           "response": []
-        },
+        }
+      ],
+      "id": "n4o5p6q7-r8s9-t0u1-v2w3-x4y5z6a7b8c9",
+      "description": "Управление отзывами о товарах"
+    },
+    {
+      "name": "Inventory service",
+      "item": [
         {
           "name": "Остатки товаров",
-          "id": "bf5250f7-cc85-4017-a3be-5ad49b582f21",
+          "id": "8491a9bb-e224-46af-a405-f7e51c3778da",
           "request": {
             "method": "GET",
             "header": [],
@@ -1671,7 +1486,7 @@
           "response": []
         }
       ],
-      "id": "n4o5p6q7-r8s9-t0u1-v2w3-x4y5z6a7b8c9",
+      "id": "92d797a3-079f-4e30-81d5-46056de05670",
       "description": "Управление отзывами о товарах"
     }
   ],
